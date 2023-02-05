@@ -3,6 +3,7 @@
 *.jpeg
 *.gif
 *.tif
+*.mp4
 aaa/
 out/
 .DS_Store

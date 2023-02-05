@@ -1,9 +1,11 @@
 # Last updated 4 February 2023
 
+# your OS may or may not perform drag&drop correctly; Windows does
 # convert a droppped file [IMPLEMENTED]
 # convert multiple dropped files [IMPLEMENTED]
 # convert a dropped folder [IMPLEMENTED]
 # convert multiple dropped folders [IMPLEMENTED]
+# convert a combination of dropped files and folders [IMPLEMENTED]
 
 # convert a stdin-entered file [IMPLEMENTED]
 # convert multiple stdin-entered files [IMPLEMENTED]
@@ -17,16 +19,10 @@
 # convert multiple arg folders [IMPLEMENTED]
 # convert a combination of arg files and folders [IMPLEMENTED]
 
-# tl;dr, make it useable from ARGS, STDIN, and DRAG&DROP + STDIN
+# tl;dr, Xylem is usable via ARGS, STDIN, or DRAG&DROP + STDIN
 
 # use imagemagick for image files (and use an editable list of other formats)
 # use ffmpeg for everything else (as "default" case)
-
-# specify output folder
-# if multiple input folders are specified, preserve the directory structure and create multiple new folders
-# handle cases where a file with the same name already exists in the directory (append a 1 or something)
-# option to skip any failures, otherwise will halt the program and display an error message
-
 
 
 import argparse
@@ -38,21 +34,26 @@ import os
 
 
 def run_convert_subprocess(input_path, output_path, desired_file_format):
+    process = None
     if desired_file_format in ["jpg", "jpeg", "png", "tif", "tiff", "bmp", "webp", "heif", "heic"]:
         print("Converting {} to {} with ImageMagick".format(input_path.name, desired_file_format))
-        subprocess.run(["magick", str(input_path), str(output_path)])
-        print("Done!")
+        process = subprocess.run(["magick", str(input_path), str(output_path)])
+        print("Conversion finished")
     else:
         print("Converting {} to {} with FFmpeg".format(input_path, desired_file_format))
-        subprocess.run(["ffmpeg", "-y", "-i", str(input_path), str(output_path)])  # -y for force overwriting
-        print("Done!")
+        process = subprocess.run(["ffmpeg", "-y", "-i", str(input_path), str(output_path)])  # -y for force overwriting
+        print("Conversion finished")
+    
+    # Halt the program and display an error message if a conversion subprocess fails
+    if process.returncode != 0:
+        raise RuntimeError(f"Conversion subprocess for {input_path} failed with return code {process.returncode}")
 
 
 
 parser = argparse.ArgumentParser()
 parser.add_argument("input_files_folders", nargs="*", help="The input file(s) and/or folder(s) to convert")  # This takes in drag-n-drop args too!!!
 parser.add_argument("-f", "--file_format", help="The format you want to convert to (will prompt if not specified)")
-parser.add_argument("-of", "--output_folder", help="The folder to place the output in (default is the same folder as input)")
+parser.add_argument("-of", "--output_folder", help="The folder to place the output in (will prompt if not specified)")
 error_handling_group = parser.add_mutually_exclusive_group()
 error_handling_group.add_argument("-s", "--skip", action="store_true", help="Skip conversions that would otherwise overwrite a file")
 error_handling_group.add_argument("-o", "--overwrite", action="store_true", help="Overwrite files in such cases")
@@ -66,16 +67,6 @@ output_folder = args.output_folder
 if len(args.input_files_folders) == 0:  # No CLI arguments provided
     # Prompt for input files/folders
     input_files_folders = input("Input file(s) and/or folder(s) to convert (separated by spaces) ----> ").split()
-
-    # Prompt for output folder
-    output_folder = input("Folder to place output in (optional) ----> ").strip("\"")
-    if output_folder == "":
-        output_folder = None
-    else:
-        output_folder = pathlib.Path(output_folder)
-        if not output_folder.exists():
-            raise FileNotFoundError("Output folder " + str(output_folder) + " does not exist")
-
 
 # Find file paths in input_files_folders
 input_files_folders_split_initial = input_files_folders
@@ -108,7 +99,17 @@ for split in input_files_folders_split:
         else:
             running_string += " " + split
 
+# Prompt for output folder if not present in args
+if output_folder is None:
+    output_folder = input("Folder to place output in (optional) ----> ").strip("\"")
+    if output_folder == "":
+        output_folder = None
+    else:
+        output_folder = pathlib.Path(output_folder)
+        if not output_folder.exists():
+            raise FileNotFoundError("Output folder " + str(output_folder) + " does not exist")
 
+# Prompt for format if not present in args
 if file_format is None:
     file_format = input("Format to convert to ----> .")
 
@@ -155,8 +156,6 @@ for input_path_str, output_folder_additional_path in input_data:
     output_name = None
     if "." not in input_path.name:
         output_name = input_path.name + "." + file_format
-    elif input_path_str.split(".")[-1] == file_format:
-        output_name = ".".join(input_path.name.split(".")[:-1]) + "1." + file_format
     else:
         output_name = ".".join(input_path.name.split(".")[:-1]) + "." + file_format
     output_path = pathlib.Path(os.path.join(output_folder_path, output_name))
