@@ -7,7 +7,7 @@
         },
         {
             "name": "FFmpeg",
-            "formats": ["webm", "mkv", "gif", "avi", "mov", "wmv", "mp4", "m4v", "mpg", "mpeg", "mp2", "aac", "aiff", "flac", "m4a", "mp3", "ogg", "wav", "wma", "wv"],
+            "formats": ["webm", "mkv", "gif", "avi", "mov", "wmv", "mp4", "m4v", "mpg", "mpeg", "mp2", "aac", "aiff", "flac", "m4a", "mp3", "ogg", "wav", "wma", "wv", "apng"],
             "runCommand": ["ffmpeg", "-y", "-i", "$$INPUT_PATH$$", "$$OUTPUT_PATH$$"]
         }
     ],
