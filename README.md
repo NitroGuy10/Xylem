@@ -140,12 +140,12 @@ A starter config.json is already provided, featuring pretty much the only settin
 
 My hope is that this configuration file is pretty self-explanatory.
 In "converters", we specify a list of conversion programs, the formats that Xylem will look at to automatically choose the correct one, and the commands needed to run them.
-\$\$INPUT_PATH\$\$ and \$\$OUTPUT_PATH\$\$, wherever they appear in any of the command strings, will be replaced by the input and output file paths, respectively, when the command is run.
+`$$INPUT_PATH$$` and `$$OUTPUT_PATH$$`, wherever they appear in any of the command strings, will be replaced by the input and output file paths, respectively, when the command is run.
 
 In "formatArgs", we specify extra prompts to give the user if they choose to convert to a certain file format.
 "inputType" can be "string" for any kind of input, or "y/n" for yes/no input.
 Depending on the user's response, the corresponding list of arguments will be inserted into the run command for all calls to the converter.
-Oh, and for "argumentsIfNotEmpty", any occurrence of \$\$STRING\$\$ will be replaced with what the user provided.
+Oh, and for "argumentsIfNotEmpty", any occurrence of `$$STRING$$` will be replaced with what the user provided.
 
 And a note on "argumentsBeforeIndex": the added arguments will be inserted BEFORE the index specified as expected, BUT if multiple prompts are given, the index you provide in the config may not reflect the correct position in the run command anymore due to there being other arguments added.
 My suggestion for dealing with this is to prompt the user in decreasing order, starting from the argument with the highest "argumentsBeforeIndex".
