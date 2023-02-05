@@ -1,4 +1,9 @@
-# Last updated 4 February 2023
+# Xylem
+# A customizable file converter
+# By NitroGuy
+# https://github.com/NitroGuy10/Xylem
+
+# Intended functionality:
 
 # your OS may or may not perform drag&drop correctly; Windows does
 # convert a droppped file [IMPLEMENTED]
@@ -21,9 +26,6 @@
 
 # tl;dr, Xylem is usable via ARGS, STDIN, or DRAG&DROP + STDIN
 
-# use imagemagick for image files (and use an editable list of other formats)
-# use ffmpeg for everything else (as "default" case)
-
 
 import argparse
 import pathlib
@@ -34,7 +36,7 @@ import json
 
 if __name__ == "__main__":
     # Argparse stuff
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description="Xylem: A customizable file converter by NitroGuy", epilog="https://github.com/NitroGuy10/Xylem")
     parser.add_argument("input_files_folders", nargs="*", help="The input file(s) and/or folder(s) to convert")  # This takes in drag-n-drop args too!!!
     parser.add_argument("-f", "--file_format", help="The format you want to convert to (will prompt if not specified)")
     parser.add_argument("-of", "--output_folder", help="The folder to place the output in (will prompt if not specified)")
@@ -137,9 +139,9 @@ if __name__ == "__main__":
         print(f"To avoid this prompt in the future, modify config.json")
         print("Converters available:")
         for converter_index in range(len(config["converters"])):
-            print(f"{converter_index + 1}.   {config['converters'][converter_index]}")
+            print(f"{converter_index + 1}.   {config['converters'][converter_index]['name']}")
         desired_converter_index = int(input("Input the number corresponding with the converter to use: "))
-        converter = config["converters"][desired_converter_index]
+        converter = config["converters"][desired_converter_index - 1]
     else:
         # Prompt the user to specify formatArgs
         if file_format in config["formatArgs"]:
