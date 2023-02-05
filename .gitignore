@@ -6,4 +6,5 @@
 *.mp4
 aaa/
 out/
+.vscode/
 .DS_Store
