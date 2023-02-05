@@ -1,0 +1,32 @@
+Windows Registry Editor Version 5.00
+
+; Right-click on background of a directory
+
+[-HKEY_CLASSES_ROOT\Directory\Background\shell\Xylem\command]
+
+[-HKEY_CLASSES_ROOT\Directory\Background\shell\Xylem]
+
+[-HKEY_CURRENT_USER\Software\Classes\directory\Background\shell\Xylem\command]
+
+[-HKEY_CURRENT_USER\Software\Classes\directory\Background\shell\Xylem]
+
+
+; Right-click on folder
+
+[-HKEY_CURRENT_USER\Software\Classes\directory\shell\Xylem\command]
+
+[-HKEY_CURRENT_USER\Software\Classes\directory\shell\Xylem]
+
+[-HKEY_CLASSES_ROOT\Directory\shell\Xylem\command]
+
+[-HKEY_CLASSES_ROOT\Directory\shell\Xylem]
+
+; Right-click on any file
+
+[-HKEY_CURRENT_USER\Software\Classes\*\shell\Xylem\command]
+
+[-HKEY_CURRENT_USER\Software\Classes\*\shell\Xylem]
+
+[-HKEY_CLASSES_ROOT\*\shell\Xylem\command]
+
+[-HKEY_CLASSES_ROOT\*\shell\Xylem]

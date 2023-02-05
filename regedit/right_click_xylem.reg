@@ -1,0 +1,34 @@
+Windows Registry Editor Version 5.00
+
+; Thanks, StackOverflow!
+; https://stackoverflow.com/a/29769228
+
+; Right-click on background of a directory
+
+[HKEY_CLASSES_ROOT\Directory\Background\shell\Xylem]
+"MUIVerb"="Xylem Here"
+
+[HKEY_CLASSES_ROOT\Directory\Background\shell\Xylem\command]
+@="py.exe C:\\<your_xylem_directory>\\xylem.py"
+
+[HKEY_CURRENT_USER\Software\Classes\directory\Background\shell\Xylem]
+"MUIVerb"="Xylem Here"
+
+[HKEY_CURRENT_USER\Software\Classes\directory\Background\shell\Xylem\command]
+@="py.exe C:\\<your_xylem_directory>\\xylem.py"
+
+; Right-click on folder
+
+[HKEY_CLASSES_ROOT\Directory\shell\Xylem\command]
+@="py.exe C:\\<your_xylem_directory>\\xylem.py '%V'"
+
+[HKEY_CURRENT_USER\Software\Classes\directory\shell\Xylem\command]
+@="py.exe C:\\<your_xylem_directory>\\xylem.py '%V'"
+
+; Right-click on any file
+
+[HKEY_CLASSES_ROOT\*\shell\Xylem\command]
+@="py.exe C:\\<your_xylem_directory>\\xylem.py '%V'"
+
+[HKEY_CURRENT_USER\Software\Classes\*\shell\Xylem\command]
+@="py.exe C:\\<your_xylem_directory>\\xylem.py '%V'"

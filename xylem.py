@@ -71,7 +71,9 @@ if __name__ == "__main__":
     # Handle quotation marks
     running_string = None
     for split in input_files_folders_split:
-        if "\"" in split or "'" in split:
+        if running_string is None and ((split.startswith("'") and split.endswith("'")) or (split.startswith("\"") and split.endswith("\""))):  # A path with no spaces that has quotation marks for some reason
+            input_files_folders.append(split.strip("\"'"))
+        elif "\"" in split or "'" in split:
             if running_string is None:
                 running_string = split
             else:
@@ -83,6 +85,12 @@ if __name__ == "__main__":
                 input_files_folders.append(split)
             else:
                 running_string += " " + split
+    
+    # Print everything that will be converted for a sanity check
+    print("Will convert:")
+    for input_file_folder in input_files_folders:
+        print(input_file_folder)
+    print("")
 
     # Prompt for output folder if not present in args
     if output_folder is None:

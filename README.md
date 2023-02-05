@@ -150,3 +150,12 @@ Oh, and for "argumentsIfNotEmpty", any occurrence of `$$STRING$$` will be replac
 And a note on "argumentsBeforeIndex": the added arguments will be inserted BEFORE the index specified as expected, BUT if multiple prompts are given, the index you provide in the config may not reflect the correct position in the run command anymore due to there being other arguments added.
 My suggestion for dealing with this is to prompt the user in decreasing order, starting from the argument with the highest "argumentsBeforeIndex".
 
+## Context Menus (RegEdit)
+
+If you are on Windows, you have the option to install the Registry entries to allow Xylem to appear in right-click context menus.
+Basically, you'll be able to right click on a folder or file, choose "Xylem", and immediately have the item queued up for a conversion.
+
+If this sounds appealing to you, edit `regedit/right_click_xylem.reg` and replace any instance of "C:\\\<your_xylem_directory\>\\xylem.py" with the correct path to xylem.py on your computer.
+Then, once everything is ready to go, and you've decided to trust me with the internals of your computer, double-click on right_click_xylem.reg to merge it with your Registry.
+
+If at any time you want to remove Xylem from your right-click context menus, just double-click on remove_right_click_xylem.reg.
