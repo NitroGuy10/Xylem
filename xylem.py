@@ -61,11 +61,10 @@ if __name__ == "__main__":
     input_files_folders_split = []
     running_string = ""
     for split in input_files_folders_split_initial:
-        running_string += split
         if split.endswith("\\"):
-            running_string = split[:-1] + " "
+            running_string += split[:-1] + " "
         else:
-            input_files_folders_split.append(running_string)
+            input_files_folders_split.append(running_string + split)
             running_string = ""
 
     # Handle quotation marks
