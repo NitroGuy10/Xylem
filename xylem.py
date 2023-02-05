@@ -26,7 +26,6 @@
 
 
 import argparse
-from genericpath import exists
 import pathlib
 import subprocess
 import os
@@ -36,11 +35,11 @@ import os
 def run_convert_subprocess(input_path, output_path, desired_file_format):
     process = None
     if desired_file_format in ["jpg", "jpeg", "png", "tif", "tiff", "bmp", "webp", "heif", "heic"]:
-        print("Converting {} to {} with ImageMagick".format(input_path.name, desired_file_format))
+        print(f"Converting {input_path.name} to {desired_file_format} with ImageMagick")
         process = subprocess.run(["magick", str(input_path), str(output_path)])
         print("Conversion finished")
     else:
-        print("Converting {} to {} with FFmpeg".format(input_path, desired_file_format))
+        print(f"Converting {input_path} to {desired_file_format} with FFmpeg")
         process = subprocess.run(["ffmpeg", "-y", "-i", str(input_path), str(output_path)])  # -y for force overwriting
         print("Conversion finished")
     
@@ -129,7 +128,7 @@ for input_path_str in input_files_folders:
             if item.is_file():
                 data_tuple = (str(item), input_path.name)
                 input_data.append(data_tuple)
-                print("Found {} in folder {}".format(item.name, input_path.name))
+                print(f"Found {item.name} in folder {input_path.name}")
     else:
         data_tuple = (input_path_str, "")
         input_data.append(data_tuple)
@@ -149,7 +148,7 @@ for input_path_str, output_folder_additional_path in input_data:
         output_folder_path = pathlib.Path(os.path.dirname(input_path))
     else:
         output_folder_path = pathlib.Path(os.path.join(output_folder, output_folder_additional_path))
-        if not exists(output_folder_path):
+        if not output_folder_path.exists():
             os.mkdir(output_folder_path)
     
     # Manufacture the output file path
