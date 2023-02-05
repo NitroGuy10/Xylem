@@ -4,6 +4,7 @@
 *.gif
 *.tif
 *.mp4
+*.wav
 aaa/
 out/
 .vscode/

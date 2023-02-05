@@ -1,0 +1,35 @@
+{
+    "converters": [
+        {
+            "name": "ImageMagick",
+            "formats": ["jpg", "jpeg", "png", "tif", "tiff", "bmp", "webp", "heif", "heic"],
+            "runCommand": ["magick", "$$INPUT_PATH$$", "$$OUTPUT_PATH$$"]
+        },
+        {
+            "name": "FFmpeg",
+            "formats": ["webm", "mkv", "gif", "avi", "mov", "wmv", "mp4", "m4v", "mpg", "mpeg", "mp2", "aac", "aiff", "flac", "m4a", "mp3", "ogg", "wav", "wma", "wv"],
+            "runCommand": ["ffmpeg", "-y", "-i", "$$INPUT_PATH$$", "$$OUTPUT_PATH$$"]
+        }
+    ],
+    "formatArgs": {
+        "mp3": [
+            {
+                "prompt": "MP3 Bitrate in bps (Optional): ",
+                "inputType": "string",
+                "argumentsIfEmpty": [],
+                "argumentsIfNotEmpty": ["-ab", "$$STRING$$"],
+                "argumentsBeforeIndex": 4
+            }
+        ],
+        "gif": [
+            {
+                "prompt": "Loop? [y/n]: ",
+                "inputType": "y/n",
+                "argumentsIfNo": ["-loop", "-1"],
+                "argumentsIfYes": ["-loop", "0"],
+                "argumentsBeforeIndex": 4
+            }
+        ]
+    }
+}
+
